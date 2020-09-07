@@ -3,87 +3,20 @@
     <head>
         <title>Javascript trial</title>
         <meta charset="UTF-8"/>
+        <link rel="stylesheet" href="styles.css">
+
     </head>
     <body>
-        <Script>
-//functions 
-        //prompt for user input
-        function getInput() {
-            let userAnswer = prompt("enter your decision,\n Rock, Paper or Scissors")
-            return userAnswer
-        }
-        
-        //store computer random input
-        function compInput() {
-            let choices = ["scissors", "paper", "rock"]
-            let choiceInt = Math.floor(Math.random() * 3);
-            return choices[choiceInt]
-        }
-        
-        
-        
-        //compare answers
-        
-        function compare(user, comp) {
-            let result = 0
-            //change both to lowercase for comparability
-            user.toLowerCase();
-            comp.toLowerCase();
-            
-            // inform user of comp choice
-            console.log(`The computer has chosen ${comp}`)
-            
-            //if tie 
-            if (user === comp) {
-                console.log(`TIE: ${user} VS ${comp}`);
-                
-            } 
-            //if user wins
-            else if ((user === "scissors" && comp === "paper") ||
-                     (user === "paper" && comp === "rock") ||
-                     (user === "rock" && comp === "scissors")) {
-                           
-                           
-                           console.log(`User WINS: ${user} VS ${comp}`);
-                           result++
-            } 
-            //if computer wins
-            else if ((user === "scissors" && comp === "rock") ||
-                     (user === "paper" && comp === "scissors") ||
-                     (user === "rock" && comp === "paper")) {
-                           
-                           
-                           console.log(`Computer WINS: ${user} VS ${comp}`);
-                           result--
-                       }
-            return result;
-        } 
-        
-        //return result of game
-        function fiveGameMatch() {
-            //define variables for winning or losing a game
-            let win = 0;
-            let lose = 0;
-            //loops through five games adding to respective variables based on result
-            for (let round = 1;round<=5;round++) {
-                let result = compare(getInput(),compInput());
-                if (result > 0) {
-                    win++
-                } else if (result < 0) {
-                    lose++
-                } 
-                console.log(`User wins: ${win}\nComputer wins: ${lose}`)
-            }
-            //determines over all winner based on win/lose variables
-            if (win == lose) {
-                console.log(`You have tied with the computer on ${win}`)
-            } else if (win > lose) {
-                console.log(`Nice work you won ${win} out of 5.`)
-            } else if (win < lose) {
-                console.log(`Sorry the computer won ${lose} out of 5.`)
-            }
-        }
-        fiveGameMatch()
-        </Script>
+        <div>
+            <h1>Scissors, Paper Rock Game</h1>
+            <p>Please choose from one fo the following selctions:<br>The computer selction will be done automiatically and picked at random</p>
+        </div>
+        <div>
+            <button class="scissors">Scissors</button>
+            <button class="paper">Paper</button>
+            <button class="rock">Rock</button>
+        </div>
+        <div class="answers"></div>
+        <Script src="script.js"></Script>
     </body>
 </html>

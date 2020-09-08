@@ -1,12 +1,4 @@
 
-let userAnswer = ""
-const buttons = document.querySelectorAll('button');
-buttons.forEach((button) => {
-    button.addEventListener('click', () => {
-        userAnswer = button.className;
-        compare(userAnswer, compInput());
-    })
-})
 
 
 
@@ -25,7 +17,7 @@ function compInput() {
 function compare(user, comp) {
     let result = 0;
     let textResult = "";
-    const answers = document.querySelector('.answers');
+    const answers = document.querySelector('#answers');
     
     // inform user of comp choice
     console.log(`The computer has chosen ${comp}`)
@@ -33,6 +25,7 @@ function compare(user, comp) {
     //if tie 
     if (user === comp) {
         textResult = `TIE: ${user} VS ${comp}`;
+        result = "tie";
         
     } 
     //if user wins
@@ -42,7 +35,7 @@ function compare(user, comp) {
                     
                     
                     textResult = `User WINS: ${user} VS ${comp}`;
-                    result++
+                    result = "win";
     } 
     //if computer wins
     else if ((user === "scissors" && comp === "rock") ||
@@ -51,34 +44,110 @@ function compare(user, comp) {
                     
                     
                     textResult = `Computer WINS: ${user} VS ${comp}`;
-                    result--
+                    result = "lose";
                 }
     answers.textContent = textResult;
-    return result;
+    answers.classList.add(result);
+    return 1;
+    
 } 
 
-//return result of game
-/*function fiveGameMatch() {
-    //define variables for winning or losing a game
-    let win = 0;
-    let lose = 0;
-    //loops through five games adding to respective variables based on result
-    for (let round = 1;round<=5;round++) {
-        let result = compare(getInput(),compInput());
-        if (result > 0) {
-            win++
-        } else if (result < 0) {
-            lose++
-        } 
-        console.log(`User wins: ${win}\nComputer wins: ${lose}`)
+
+function checkForFive(result, wins, loses) {
+    if (result >= 5) {
+        let finishingText = "";
+        
+        if (wins == loses) {
+            finishingText = `You tied on ${wins} out of five`;
+        } else if (wins>loses) {
+            finishingText = `Congratulations you won on ${wins} out of five`;
+        } else {
+            finishingText = `Better luck next time, the computer beat you ${loses} out of five`;
+        }
+        
+        answers.textContent = finishingText;
+        result-=5;
+        match();
     }
-    //determines over all winner based on win/lose variables
-    if (win == lose) {
-        console.log(`You have tied with the computer on ${win}`)
-    } else if (win > lose) {
-        console.log(`Nice work you won ${win} out of 5.`)
-    } else if (win < lose) {
-        console.log(`Sorry the computer won ${lose} out of 5.`)
-    }
+    return result;
 }
-fiveGameMatch()*/
+
+
+function checkWinner(wins, loses) {
+    if (answers.classList.contains('win')) {
+        wins++;
+        answers.classList.remove('win');
+    } else if (answers.classList.contains('lose')) {
+        loses++;
+        answers.classList.remove('lose');
+    } else {
+        answers.classList.remove('tie');
+    }
+    return [wins, loses]
+}
+
+
+function match() {
+    let userAnswer = "";
+    let result = 0;
+
+    let wins = 0;
+    let loses = 0;
+    
+    let scissorsBut = document.getElementById('scissors');
+    let rockBut = document.getElementById('rock');
+    let paperBut = document.getElementById('paper');   
+
+    let roundCount = document.getElementById('roundCounter')
+
+    
+    scissorsBut.addEventListener('click', function() {
+        result += compare("scissors", compInput());//will return win lose or tie
+        
+        if (answers.classList.contains('win')) {
+            wins++;
+            answers.classList.remove('win');
+        } else if (answers.classList.contains('lose')) {
+            loses++;
+            answers.classList.remove('lose');
+        } else {
+            answers.classList.remove('tie');
+        }
+        roundCount.textContent = (`wins ${wins} loses: ${loses}`);
+        result = checkForFive(result, wins, loses);
+        
+    }) 
+    rockBut.addEventListener('click', function() {
+        result += compare('rock', compInput());
+        
+        if (answers.classList.contains('win')) {
+            wins++;
+            answers.classList.remove('win');
+        } else if (answers.classList.contains('lose')) {
+            loses++;
+            answers.classList.remove('lose');
+        } else {
+            answers.classList.remove('tie');
+        }
+        roundCount.textContent = (`wins ${wins} loses: ${loses}`);
+        result = checkForFive(result, wins, loses);
+        
+    })          
+    paperBut.addEventListener('click', function() {
+        result += compare('paper', compInput());  
+        
+        if (answers.classList.contains('win')) {
+            wins++;
+            answers.classList.remove('win');
+        } else if (answers.classList.contains('lose')) {
+            loses++;
+            answers.classList.remove('lose');
+        } else {
+            answers.classList.remove('tie');
+        }
+        roundCount.textContent = (`wins ${wins} loses: ${loses}`);
+        result = checkForFive(result, wins, loses);
+        
+    }) 
+}
+match();

@@ -18,3 +18,9 @@ button {
 button:hover {
     background-color: #386c9c;
 }
+
+.roundCounter {
+    text-align: left;
+    margin-left: 400px;
+    margin-top: 20px;
+}
